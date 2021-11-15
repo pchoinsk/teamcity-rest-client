@@ -375,6 +375,11 @@ interface Parameter {
     val own: Boolean
 }
 
+interface Statistic {
+    val name: String
+    val value: String
+}
+
 interface Branch {
     val name: String?
     val isDefault: Boolean
@@ -433,6 +438,7 @@ interface Build {
     val runningInfo: BuildRunningInfo?
 
     val parameters: List<Parameter>
+    val statistics: List<Statistic>
 
     val tags: List<String>
 
@@ -483,6 +489,7 @@ interface Build {
     fun downloadBuildLog(output: File)
     fun cancel(comment: String = "", reAddIntoQueue: Boolean = false)
     fun getResultingParameters(): List<Parameter>
+    //fun getStatistics(): List<Statistic>
 
     @Deprecated(message = "use getHomeUrl()", replaceWith = ReplaceWith("getHomeUrl()"))
     fun getWebUrl(): String

@@ -1085,6 +1085,14 @@ private class ParameterImpl(private val bean: ParameterBean) : Parameter {
         get() = bean.own!!
 }
 
+private class StatisticImpl(private val bean: StatisticBean) : Statistic {
+    override val name: String
+        get() = bean.name!!
+
+    override val value: String
+        get() = bean.value!!
+}
+
 private class FinishBuildTriggerImpl(private val bean: TriggerBean) : FinishBuildTrigger {
     override val initiatedBuildConfiguration: BuildConfigurationId
         get() = BuildConfigurationId(bean.properties?.property?.find { it.name == "dependsOn" }?.value!!)
@@ -1320,6 +1328,10 @@ private class BuildImpl(bean: BuildBean,
 
     override val parameters: List<Parameter>
         get() = fullBean.properties!!.property!!.map { ParameterImpl(it) }
+
+    override val statistics: List<Statistic>
+        get() = fullBean.statistics!!.property!!.map { StatisticImpl(it) }
+
     override val tags: List<String>
         get() = fullBean.tags?.tag?.map { it.name!! } ?: emptyList()
     override val revisions: List<Revision>

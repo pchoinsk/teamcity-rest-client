@@ -83,6 +83,10 @@ internal interface TeamCityService {
     fun resultingProperties(@Path("id") buildId: String): ParametersBean
 
     @Headers("Accept: application/json")
+    @GET("/app/rest/builds/id:{id}/statistics")
+    fun statistics(@Path("id") buildId: String): StatisticsBean
+
+    @Headers("Accept: application/json")
     @GET("/app/rest/projects/id:{id}")
     fun project(@Path("id") id: String): ProjectBean
 
@@ -267,6 +271,7 @@ internal open class BuildBean: IdBean() {
     var agent: BuildAgentBean? = null
 
     var properties: ParametersBean? = ParametersBean()
+    var statistics: StatisticsBean? = StatisticsBean()
     var buildType: BuildTypeBean? = BuildTypeBean()
 
     var `snapshot-dependencies`: BuildListBean? = null
@@ -442,6 +447,24 @@ internal class ParameterBean() {
     var name: String? = null
     var value: String? = null
     var own: Boolean? = null
+
+    constructor(name: String, value: String) : this() {
+        this.name = name
+        this.value = value
+    }
+}
+
+internal class StatisticsBean() {
+    var property: List<StatisticBean>? = ArrayList()
+
+    constructor(properties: List<StatisticBean>) : this() {
+        property = properties
+    }
+}
+
+internal class StatisticBean() {
+    var name: String? = null
+    var value: String? = null
 
     constructor(name: String, value: String) : this() {
         this.name = name
